@@ -1,0 +1,11 @@
+{
+  "main": "./integration.js",
+  "name": "criminal-ip",
+  "version": "3.0.2",
+  "private": true,
+  "dependencies": {
+    "postman-request": "^2.88.1-postman.31",
+    "lodash": "^4.17.21",
+    "async": "^3.2.4"
+  }
+}
