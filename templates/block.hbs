@@ -1,7 +1,7 @@
 <a class="p-link" href="https://www.criminalip.io/asset/report/{{block.entity.value}}">
   Run search in Criminal IP {{fa-icon icon="external-link-square" fixedWidth=true class="external-link"}}
 </a>
-<h1 class="p-title">{{fa-icon icon="info" fixedWidth=true}} Score</h1>
+<h1 class="p-title">{{fa-icon icon="tachometer" fixedWidth=true}} Score</h1>
 <div>
   <span class="p-key">Inbound Score:</span>
   <span class="p-value">
@@ -56,52 +56,56 @@
 </div>
 
 {{#if (gt details.portSummary.length 0)}}
-  <h1 class="p-title">{{fa-icon icon="globe" fixedWidth=true}} Open Ports</h1>
+  <h1 class="p-title">{{fa-icon icon="ethernet" fixedWidth=true}} Open Ports</h1>
   {{#each details.portSummary as | port | }}
     <span class="port">{{port}}</span>
   {{/each}}
 {{/if}}
 
 {{#if (gt details.ip_category.length 0)}}
-  <h1 class="p-title">{{fa-icon icon="globe" fixedWidth=true}} Categories</h1>
-  {{#each details.ip_category as | category |}}
-    <div class="mb-2">
-      <div>
-        <span class="p-key">Source:</span>
-        <span class="p-value">{{category.detect_source}}</span>
-      </div>
-      <div>
-        <span class="p-key">Type:</span>
-        <span class="p-value">{{category.type}}</span>
-      </div>
-      {{#if category.confirmed_time}}
+  <h1 class="p-title">{{fa-icon icon="box" fixedWidth=true}} Categories</h1>
+  <div class="scrollable-container border-container">
+    {{#each details.ip_category as | category |}}
+      <div class="mb-2">
         <div>
-          <span class="p-key">Confirmed Time:</span>
-          <span class="p-value">{{category.confirmed_time}}</span>
+          <span class="p-key">Source:</span>
+          <span class="p-value">{{category.detect_source}}</span>
         </div>
-      {{/if}}
-    </div>
-  {{/each}}
+        <div>
+          <span class="p-key">Type:</span>
+          <span class="p-value">{{category.type}}</span>
+        </div>
+        {{#if category.confirmed_time}}
+          <div>
+            <span class="p-key">Confirmed Time:</span>
+            <span class="p-value">{{category.confirmed_time}}</span>
+          </div>
+        {{/if}}
+      </div>
+    {{/each}}
+  </div>
 {{/if}}
 
-{{#if (gt details.domain.length 0)}}
+{{#if (gt details.domain.data.length 0)}}
   <h1 class="p-title">{{fa-icon icon="globe" fixedWidth=true}} Domains</h1>
-  {{#each details.domain.data as | domain |}}
-    <div class="mb-2">
-      <div>
-        <span class="p-key">Domain:</span>
-        <span class="p-value">{{domain.domain}}</span>
-      </div>
-      <div>
-        <span class="p-key">Type:</span>
-        <span class="p-value">{{domain.ip_type}}</span>
-      </div>
-      {{#if domain.registrar}}
+  <div class="scrollable-container border-container">
+    {{#each details.domain.data as | domain |}}
+      <div class="mb-2">
         <div>
-          <span class="p-key">Registrar:</span>
-          <span class="p-value">{{domain.registrar}}</span>
+          <span class="p-key">Domain:</span>
+          <span class="p-value">{{domain.domain}}</span>
         </div>
-      {{/if}}
-    </div>
-  {{/each}}
+        <div>
+          <span class="p-key">Type:</span>
+          <span class="p-value">{{domain.ip_type}}</span>
+        </div>
+        {{#if domain.registrar}}
+          <div>
+            <span class="p-key">Registrar:</span>
+            <span class="p-value">{{domain.registrar}}</span>
+          </div>
+        {{/if}}
+      </div>
+    {{/each}}
+  </div>
 {{/if}}
