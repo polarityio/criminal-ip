@@ -1,0 +1,43 @@
+{
+  "name": "Criminal IP",
+  "acronym": "CRIME",
+  "description": "This integration queries the IPv4 summary data in Criminal IP",
+  "entityTypes": [
+    "IPv4"
+  ],
+  "styles": [
+    "./styles/styles.less"
+  ],
+  "defaultColor": "light-pink",
+  "onDemandOnly": true,
+  "block": {
+    "component": {
+      "file": "./components/block.js"
+    },
+    "template": {
+      "file": "./templates/block.hbs"
+    }
+  },
+  "request": {
+    "cert": "",
+    "key": "",
+    "passphrase": "",
+    "ca": "",
+    "proxy": "",
+    "rejectUnauthorized": true
+  },
+  "logging": {
+    "level": "trace"
+  },
+  "options": [
+    {
+      "key": "apiKey",
+      "name": "Valid Criminal IP API key",
+      "description": "A valid API key is needed in order to access Criminal IP REST API",
+      "default": "",
+      "type": "password",
+      "userCanEdit": true,
+      "adminOnly": false
+    }
+  ]
+}
