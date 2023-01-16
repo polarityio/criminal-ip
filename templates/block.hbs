@@ -1,0 +1,187 @@
+<a class="p-link" href="https://www.criminalip.io/asset/report/{{block.entity.value}}">
+  Run search in Criminal IP {{fa-icon icon="external-link-square" fixedWidth=true class="external-link"}}
+</a>
+{{#if details.noResultsFound}}
+  <h1 class="p-title">{{fa-icon icon="info-circle"}} No Results Found</h1>
+  <p>
+    This entity does not exist in CriminalIP
+  </p>
+{{else if details.apiLimitReached}}
+  <h1 class="p-title">{{fa-icon icon="info-circle"}} Search Limit Reached</h1>
+  {{#if details.isRetry}}
+    <p>
+      This entity could still not be searched as you've temporarily reached your CriminalIP API Search Limit.  The CriminalIP API only allows 1 active search at a time in addition to a monthly search limit. You can retry your search again by pressing the "Retry Search" button.
+    </p>
+  {{else}}
+    <p>
+      This entity could not be searched as you've temporarily reached your CriminalIP API Search Limit.  The CriminalIP API only allows 1 active search at a time in addition to a monthly search limit. You can retry your search by pressing the "Retry Search" button.
+    </p>
+  {{/if}}
+  <div class="d-flex flex-row justify-content-between align-items-center">
+    <div>
+      {{#if isRunning}}
+        {{fa-icon icon="spinner-third" fixedWidth=true spin=true}} Searching ...
+      {{/if}}
+    </div>
+    <button
+      {{action "retrySearch"}}
+        class="p-btn btn btn-light mt-1"
+        disabled={{isRunning}}
+      >
+      Retry Search
+    </button>
+  </div>
+  {{#if message}}
+    <div class="alert alert-info mt-1 alert-title">
+      {{message}}
+    </div>
+  {{/if}}
+  {{#if errorMessageTitle}}
+    <div class="alert alert-danger mt-1">
+      <div class="alert-title mb-1">
+        {{errorMessageTitle}}
+      </div>
+      <pre class="alert-body">{{errorMessageBody}}</pre>
+    </div>
+  {{/if}}
+{{else}}
+  <h1 class="p-title">{{fa-icon icon="tachometer" fixedWidth=true}} Score</h1>
+  <div>
+    <span class="p-key">Inbound Score:</span>
+    <span class="p-value">
+      {{details.inboundScore.percent}}%
+      (<span class="score {{details.inboundScore.display}}">{{details.inboundScore.display}}</span>)
+    </span>
+  </div>
+  <div>
+    <span class="p-key">Outbound Score:</span>
+    <span class="p-value">
+      {{details.outboundScore.percent}}%
+      (<span class="score {{details.outboundScore.display}}">{{details.outboundScore.display}}</span>)
+    </span>
+  </div>
+
+  <h1 class="p-title">{{fa-icon icon="tags" fixedWidth=true}} Tags</h1>
+  <div class="info-bar mb-1">
+    <div class="info-bar-row">
+      <div class="info-bar-pill">
+        <span class="info-bar-key">VPN</span>
+        <span class="info-bar-value">
+          {{#if details.tags.is_vpn}}Yes{{else}}No{{/if}}
+        </span>
+      </div>
+      <div class="info-bar-pill">
+        <span class="info-bar-key">Cloud</span>
+        <span class="info-bar-value">
+          {{#if details.tags.is_cloud}}Yes{{else}}No{{/if}}
+        </span>
+      </div>
+      <div class="info-bar-pill">
+        <span class="info-bar-key">TOR</span>
+        <span class="info-bar-value">
+          {{#if details.tags.is_tor}}Yes{{else}}No{{/if}}
+        </span>
+      </div>
+    </div>
+    <div class="info-bar-row">
+      <div class="info-bar-pill">
+        <span class="info-bar-key">Proxy</span>
+        <span class="info-bar-value">
+          {{#if details.tags.is_proxy}}Yes{{else}}No{{/if}}
+        </span>
+      </div>
+      <div class="info-bar-pill">
+        <span class="info-bar-key">Hosting</span>
+        <span class="info-bar-value">
+          {{#if details.tags.is_hosting}}Yes{{else}}No{{/if}}
+        </span>
+      </div>
+      <div class="info-bar-pill">
+        <span class="info-bar-key">Mobile</span>
+        <span class="info-bar-value">
+          {{#if details.tags.is_mobile}}Yes{{else}}No{{/if}}
+        </span>
+      </div>
+    </div>
+    <div class="info-bar-row">
+      <div class="info-bar-pill">
+        <span class="info-bar-key">Hosting</span>
+        <span class="info-bar-value">
+          {{#if details.tags.is_hosting}}Yes{{else}}No{{/if}}
+        </span>
+      </div>
+      <div class="info-bar-pill">
+        <span class="info-bar-key">Mobile</span>
+        <span class="info-bar-value">
+          {{#if details.tags.is_mobile}}Yes{{else}}No{{/if}}
+        </span>
+      </div>
+      <div class="info-bar-pill">
+        <span class="info-bar-key">Darkweb</span>
+        <span class="info-bar-value">
+          {{#if details.tags.is_darkweb}}Yes{{else}}No{{/if}}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  {{#if (gt details.portSummary.length 0)}}
+    <h1 class="p-title">{{fa-icon icon="ethernet" fixedWidth=true}} Open Ports</h1>
+    {{#each details.portSummary as | port | }}
+      <span class="port">{{port}}</span>
+    {{/each}}
+  {{/if}}
+
+  {{#if (gt details.ip_category.length 0)}}
+    <h1 class="p-title">{{fa-icon icon="box" fixedWidth=true}} Categories</h1>
+    <div class="scrollable-container border-container">
+      {{#each details.ip_category as | category |}}
+        <div class="category">
+          <div>
+            <span class="p-key">Source:</span>
+            <span class="p-value">{{category.detect_source}}</span>
+          </div>
+          <div>
+            <span class="p-key">Type:</span>
+            <span class="p-value">{{category.type}}</span>
+          </div>
+          {{#if category.confirmed_time}}
+            <div>
+              <span class="p-key">Confirmed Time:</span>
+              <span class="p-value">{{category.confirmed_time}}</span>
+            </div>
+          {{/if}}
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+
+  {{#if (gt details.domain.data.length 0)}}
+    <h1 class="p-title">{{fa-icon icon="globe" fixedWidth=true}} Domains</h1>
+    <div class="scrollable-container border-container">
+      {{#each details.domain.data as | domain |}}
+        <div class="mb-2">
+          <div>
+            <span class="p-key">Domain:</span>
+            <span class="p-value">{{domain.domain}}</span>
+          </div>
+          <div>
+            <span class="p-key">Type:</span>
+            <span class="p-value">{{domain.ip_type}}</span>
+          </div>
+          {{#if domain.registrar}}
+            <div>
+              <span class="p-key">Registrar:</span>
+              <span class="p-value">{{domain.registrar}}</span>
+            </div>
+          {{/if}}
+        </div>
+      {{/each}}
+      {{#if details.domain.isTruncated}}
+        <div class="p-footnote">
+          Showing first 250 out of {{details.domain.totalResults}} domains
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
+{{/if}}
