@@ -79,8 +79,8 @@ module.exports = {
       description: 'A valid API key is needed in order to access Criminal IP REST API',
       default: '',
       type: 'password',
-      userCanEdit: true,
-      adminOnly: false
+      userCanEdit: false,
+      adminOnly: true
     }
   ]
 };
