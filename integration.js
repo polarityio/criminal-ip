@@ -233,8 +233,24 @@ function retrySearch({ data: { entity } }, options, cb) {
   });
 }
 
+function validateOptions(userOptions, cb) {
+  let errors = [];
+  if (
+    typeof userOptions.apiKey.value !== 'string' ||
+    (typeof userOptions.apiKey.value === 'string' &&
+      userOptions.apiKey.value.length === 0)
+  ) {
+    errors.push({
+      key: 'apiKey',
+      message: 'You must provide a valid CriminalIP API Key'
+    });
+  }
+  cb(null, errors);
+}
+
 module.exports = {
   startup,
   doLookup,
-  onMessage: retrySearch
+  onMessage: retrySearch,
+  validateOptions
 };
