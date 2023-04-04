@@ -174,7 +174,7 @@ function scoreToHumanReadable(score) {
 }
 
 /**
- * Ignore Private IPs, as well as IPs in the range 0.0.0.0/8 (CriminalIP will return a 400 error for these
+ * Ignore Private IPs, as well as  local and loopback IPs in the range 0.0.0.0/8 (CriminalIP will return a 400 error for these
  * as it does not consider them valid).
  * @param entity
  * @returns {boolean}
@@ -183,7 +183,9 @@ function isValidIP(entity) {
   if (
     entity.isPrivateIP ||
     IGNORED_IPS.has(entity.value) ||
-    entity.value.startsWith('0.')
+    entity.value.startsWith('0.') ||
+    entity.value.startsWith('127') ||
+    entity.value.startsWith('169')
   ) {
     return false;
   }
