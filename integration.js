@@ -174,8 +174,8 @@ function scoreToHumanReadable(score) {
 }
 
 /**
- * Ignore Private IPs, as well as  local and loopback IPs in the range 0.0.0.0/8 (CriminalIP will return a 400 error for these
- * as it does not consider them valid).
+ * Ignore Private IPs, Loopback IPs (127.x.x.x), Link Local IPs (169.x.x.x), as well as system network management
+ * IPs in the range 0.0.0.0/8 as CriminalIP will return a 400 error for these.
  * @param entity
  * @returns {boolean}
  */
